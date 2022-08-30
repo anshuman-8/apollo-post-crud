@@ -1,0 +1,40 @@
+query($getPostId: ID!) {
+  getAllPosts {
+    id
+    title
+    body
+    createdAt
+  }
+  getPost(id: $getPostId) {
+    title
+    body
+  }
+}
+
+mutation($getPostId: ID!) {
+  createNewPost (inputPost:{
+    title:"fourth Post"
+    body: " lets joy out as it is our fourth post out in yellow"
+  }){
+    title
+    body
+  }
+
+  deletePost(id: $getPostId) {
+    title
+    body
+  }
+
+  updatePost(
+    id: $getPostId
+    inputPost: { title: "second post updated with new", body: "lets enjoy the day" }
+  ) {
+    title
+    body
+  }
+}
+
+#variables
+{
+  "getPostId": "630d9dcedd382e2b8a95e674",
+}

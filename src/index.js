@@ -1,24 +1,28 @@
 import express from "express";
+import mongoose from 'mongoose';
+import * as AppModels from './models'
 import { success, error } from "consola";
-import { ApolloServer, gql } from "apollo-server-express";
-import { PORT, IN_PROD } from "./config";
-
-// const PORT = 3000;
-
+import { PORT, IN_PROD,DB } from "./config";
 import {resolvers,typeDefs}   from './graphql';
+import { ApolloServer } from "apollo-server-express";
 
 
 const startApp = async () => {
+  try{
 
-  // initialize express application
+    // initialize express application
   const app = express();
 
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
     playground: !IN_PROD,
-    context: {},
+    // playground: true,
+    context: {...AppModels},
   });
+
+  await mongoose.connect(DB,{useNewUrlParser:true,useUnifiedTopology:true});
+  success(`Connected to MongoDB at: ${DB}`);
 
   await apolloServer.start();
 
@@ -31,6 +35,9 @@ const startApp = async () => {
       badge: true,
     })
   );
+  }catch(err){
+    error(err);
+  }
 };
 
 startApp();

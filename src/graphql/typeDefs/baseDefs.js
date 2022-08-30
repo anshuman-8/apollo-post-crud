@@ -4,4 +4,8 @@ export default gql`
     type Query{
         hello:String!
     }
+
+    type Mutation{
+        working(txt:Int!):String!
+    }
 `;
