@@ -1,3 +1,4 @@
+import {join} from 'path';
 import express from "express";
 import mongoose from 'mongoose';
 import * as AppModels from './models'
@@ -12,12 +13,12 @@ const startApp = async () => {
 
     // initialize express application
   const app = express();
+  app.use(express.static(join(__dirname,'./Uploads')))
 
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
     playground: !IN_PROD,
-    // playground: true,
     context: {...AppModels},
   });
 
