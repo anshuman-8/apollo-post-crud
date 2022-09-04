@@ -16,6 +16,10 @@ const postSchema = new Schema({
     createdAt:{
         type:Date,
         required:false,
+    },
+    author:{
+        ref:'users',
+        type:Schema.Types.ObjectId,
     }
 },{timestamps:true})
 

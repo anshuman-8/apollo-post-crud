@@ -3,8 +3,8 @@ import {gql} from 'apollo-server-express';
 export default gql`
     
     extend type Query{
-        hello:String!
-        getAllPosts:[Post!]!
+        helloPost:String!
+        getAllPosts:[Post!]! 
         getPost(id:ID!):Post!
     }
 
@@ -26,5 +26,6 @@ export default gql`
         body:String!
         postImage:String
         createdAt:String
+        author:User!
     }
 `;

@@ -4,7 +4,8 @@ import {URL} from '../../config';
 
 export default {
   Query: {
-    info: (parent,args,{Post},info) => "Well the image is uploaded, and this is its info !!",
+    info: (parent,args,context,info) => {
+      return "Well the image is uploaded, and this is its info !!"},
   },
 
   Mutation: {

@@ -5,7 +5,9 @@ import * as AppModels from './models'
 import { success, error } from "consola";
 import { PORT, IN_PROD,DB } from "./config";
 import {resolvers,typeDefs}   from './graphql';
+import AuthMiddleware from './middlewares/auth';
 import { ApolloServer } from "apollo-server-express";
+// import { schemaDirectives } from './graphql/directives';
 
 
 const startApp = async () => {
@@ -13,13 +15,18 @@ const startApp = async () => {
 
     // initialize express application
   const app = express();
+  app.use(AuthMiddleware);
   app.use(express.static(join(__dirname,'./Uploads')))
 
   const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
+    // schemaDirectives,
     playground: !IN_PROD,
-    context: {...AppModels},
+    context: ({req})=>{
+      let {isAuth, user}=req;
+      return{req,isAuth, user,...AppModels};
+    },
   });
 
   await mongoose.connect(DB,{useNewUrlParser:true,useUnifiedTopology:true});

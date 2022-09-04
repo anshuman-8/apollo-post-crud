@@ -38,3 +38,17 @@ mutation($getPostId: ID!) {
 {
   "getPostId": "630d9dcedd382e2b8a95e674",
 }
+
+# directives----------------------------------------------/ Examples
+
+query ($isAuthenticated: Boolean! = false) { # false is default value
+  getAllPosts {
+    id @skip(if: $isAuthenticated)
+    ... on Post @include(if:$isAuthenticated) { #this is together with the include directive
+      body
+      imageLink
+      createdAt
+    }
+    user @include(if:$isAuthenticated)
+  }
+}
