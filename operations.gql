@@ -9,20 +9,53 @@ query($getPostId: ID!) {
     title
     body
   }
+
+  info
+
+  getPostsByLimit{
+    paginator {
+      currentPage
+      postCount
+      slNo
+      pageCount
+      perPage
+    }
+    posts {
+      id
+      title
+      body
+      author {
+        id
+        first_Name
+        avatarImage
+      }
+    }
+  }
 }
 
-mutation($getPostId: ID!) {
+mutation($getPostId: ID!, $file: FileUpload!) {
   createNewPost (inputPost:{
-    title:"fourth Post"
-    body: " lets joy out as it is our fourth post out in yellow"
+    title:"wrong Post by anshu"
+    body: " lets joy out as it is our third (anshu)post out in yellow"
   }){
+    id
     title
     body
+    author {
+      avatarImage
+      username
+      first_Name
+    }
   }
 
   deletePost(id: $getPostId) {
     title
     body
+    author {
+      avatarImage
+      username
+      first_Name
+    }
   }
 
   updatePost(
@@ -32,12 +65,67 @@ mutation($getPostId: ID!) {
     title
     body
   }
+
+  imageUploader(file: $file)
+}
+
+query ($getUserId: ID!) {
+  helloUser
+
+  getAllUsers {
+    id
+    first_Name
+    last_Name
+  }
+  getUser(id: $getUserId) {
+    first_Name
+  }
+}
+
+query ($username: String!, $password: String!) {
+  loginUser(username: $username, password: $password) {
+    token
+    user {
+      first_Name
+      last_Name
+    }
+  }
+  authenticatedUser{
+    first_Name
+    username
+    id
+  }
+}
+mutation{
+
+  registerNewUser(user: {
+    username:"anstar"
+    email:"anhsumanswain@gmail.com"
+    first_Name:"Anshu"
+    password:"asdfghjk"
+  }) {
+    token
+    user {
+      username
+      first_Name
+      email
+    }
+  }
+
 }
 
 #variables
 {
-  "getPostId": "630d9dcedd382e2b8a95e674",
+  "username": "anshu",
+  "password": "asdfghjk",
+  "getUserId": "630f0dd98ae55a919b977b09",
+  "getPostId": "6314bf294cb233747342409a"
+  
 }
+
+#Header
+
+# authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGYwZGQ5OGFlNTVhOTE5Yjk3N2IwOSIsInVzZXJuYW1lIjoiYW5zaHUiLCJlbWFpbCI6ImFuaHN1bWFuc3dhaW5AZ21haWwuY29tIiwiZmlyc3RfTmFtZSI6IkFuc2h1IiwiYXZhdGFySW1hZ2UiOiJodHRwczovL2Nkbi1pY29ucy1wbmcuZmxhdGljb24uY29tLzUxMi8xMDUzLzEwNTMyNDQucG5nP3c9MzYwIiwiaWF0IjoxNjYyMjY5OTQyLCJleHAiOjE2NjI4NzQ3NDJ9.qRCIyxNincvG76_08ueUW_Vgd_M5PmjeBdnruKJLw0Y
 
 # directives----------------------------------------------/ Examples
 
