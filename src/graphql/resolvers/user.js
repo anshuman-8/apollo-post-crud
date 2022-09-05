@@ -1,6 +1,7 @@
 import { hash, genSaltSync, compare } from 'bcryptjs';
 import { ApolloError } from "apollo-server-express";
 import { issueToken, serializeUser } from '../../functions';
+import {loginUserValidator,registerNewUserVadidator} from '../../validators';
 
 export default {
 
@@ -30,15 +31,16 @@ export default {
 
         loginUser:async(par,args,{User},info)=>{
             try{
-                let user=await User.findOne({username:args.username});
+            await loginUserValidator.validate({username:args.username,password:args.password},{abortEarly:false});
+            let user=await User.findOne({username:args.username});
             if(!user){
-                throw new Error('User not found');
+                throw new ApolloError('User not found');
             };
 
             let isMatch= await compare(args.password,user.password);
             // const isMatch=await user.comparePassword(args.password);
             if(!isMatch){
-                throw new Error('Invalid Password');
+                throw new ApolloError('Invalid Password');
             };
 
             user= user.toObject();
@@ -65,11 +67,12 @@ export default {
     Mutation:{
         registerNewUser:async(par,args,{User},info)=>{
             try{
+                await registerNewUserVadidator.validate(args.user,{abortEarly:false});
                 let {username,password}=args.user;
                 // first check if username is already exists
                 let user= await User.findOne({username});
                 if(user){
-                    throw new Error('Username already exists');
+                    throw new ApolloError('Username already exists');
                 };
 
                 // create new user instance

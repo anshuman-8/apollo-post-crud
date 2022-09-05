@@ -2,6 +2,7 @@
 import { ApolloError } from "apollo-server-express";
 
 
+
 export default {
     Query:{
         helloPost:(parent,args,{Post},info)=>"Hello World, its graphql",

@@ -1,4 +1,5 @@
 import {Schema,model} from 'mongoose';
+import paginator from 'mongoose-paginate-v2';
 
 const postSchema = new Schema({
     title:{
@@ -22,6 +23,8 @@ const postSchema = new Schema({
         type:Schema.Types.ObjectId,
     }
 },{timestamps:true})
+
+postSchema.plugin(paginator);
 
 const Post=model('post',postSchema);
 

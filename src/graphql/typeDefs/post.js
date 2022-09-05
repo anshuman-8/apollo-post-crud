@@ -6,6 +6,7 @@ export default gql`
         helloPost:String!
         getAllPosts:[Post!]! 
         getPost(id:ID!):Post!
+        getPostsByLimit(limit:Int,page:Int):PostPage!
     }
 
     extend type Mutation{
@@ -27,5 +28,10 @@ export default gql`
         postImage:String
         createdAt:String
         author:User!
+    }
+
+    type PostPage{
+        posts:[Post!]!
+        totalPosts:Int!
     }
 `;
