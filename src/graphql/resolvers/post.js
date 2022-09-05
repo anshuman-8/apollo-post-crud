@@ -15,6 +15,36 @@ export default {
             const post=await Post.findById(args.id).populate('author');
             return post;
         },
+        getPostsByLimit:async(parent,args,{Post},info)=>{
+            let {page,limit} = args;
+
+            const myCustomLabels = {
+                totalDocs: 'postCount',
+                docs: 'posts',
+                limit: 'perPage',
+                page: 'currentPage',
+                nextPage: 'next',
+                prevPage: 'prev',
+                totalPages: 'pageCount',
+                pagingCounter: 'slNo',
+                meta: 'paginator',
+              };
+          
+              const options = {
+                page: page || 1,
+                limit: limit || 10,
+                sort: { createdAt: -1 },
+                populate: 'author',
+                customLabels: myCustomLabels,
+              };
+          
+              let posts=await Post.paginate({}, options);
+              return posts;
+        },
+        getAuthUsersPosts:async(parent,args,{Post},info)=>{
+            const posts=await Post.find({author:args.id}).populate('author');
+            return posts;
+        }
     },
 
     Mutation:{

@@ -7,12 +7,30 @@ export default gql`
         getAllPosts:[Post!]! 
         getPost(id:ID!):Post!
         getPostsByLimit(limit:Int,page:Int):PostPage!
+        getAuthUsersPosts: [Post!]!
     }
 
     extend type Mutation{
+        deletePost(id:ID!):Post!
         createNewPost(inputPost:inputPost!):Post!
         updatePost(id:ID!,inputPost:inputPost!):Post!
-        deletePost(id:ID!):Post!
+    }
+
+    type PostPage{
+        posts:[Post!]!
+        paginator:Paginator!
+    }
+
+    type Paginator{
+        postCount:Int!
+        currentPage:Int!
+        perPage:Int!
+        pageCount:Int!
+        slNo:Int!
+        hasPrevPage:Boolean!
+        hasNextPage:Boolean!
+        next:Int
+        prev:Int
     }
 
     input inputPost{
@@ -30,8 +48,5 @@ export default gql`
         author:User!
     }
 
-    type PostPage{
-        posts:[Post!]!
-        totalPosts:Int!
-    }
+    
 `;
